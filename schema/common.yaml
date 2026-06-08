@@ -1,0 +1,19 @@
+# Shared enums reused by the inventory parquet schemas.
+# Plain YAML — each schema file describes one parquet table and its columns.
+
+enums:
+  flow_direction:
+    - input        # a flow entering the process
+    - output       # a flow leaving the process
+
+  flow_type:
+    - production    # the reference (produced) flow of the process
+    - technosphere  # a product exchange linking to another process
+    - biosphere     # an elementary (environmental) flow
+
+  process_type:
+    - unit          # a unit process with explicit inputs and outputs
+    - system        # a system process aggregating multiple unit processes
+    - lci_result    # a cradle-to-gate LCI result
+
+# Column types used across schemas: string | double | int | date | enum

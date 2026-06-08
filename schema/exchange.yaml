@@ -1,0 +1,62 @@
+# Schema for exchanges.parquet — one row per exchange (technosphere + biosphere
+# edges) of a process. Joined to processes.parquet on process_id.
+
+table: exchanges
+file: exchanges.parquet
+foreign_key:
+  process_id: processes.process_id
+description: Quantified input/output flows of each process.
+
+columns:
+  - name: process_id
+    type: string
+    required: true
+    description: FK -> processes.process_id.
+  - name: flow
+    type: string
+    required: true
+    description: >
+      Flow id — product code (technosphere) or elementary-flow id (biosphere).
+      Cross-source links resolved via sentier-mappings.
+  - name: flow_name
+    type: string
+    required: true
+    description: Human-readable flow name.
+  - name: flow_type
+    type: enum
+    enum: flow_type         # see common.yaml
+    required: true
+  - name: direction
+    type: enum
+    enum: flow_direction    # see common.yaml
+    required: true
+  - name: amount
+    type: double
+    required: true
+  - name: unit
+    type: string
+    required: true
+  - name: location
+    type: string
+    required: false
+    description: Exchange-level geography (technosphere links).
+  - name: uncertainty_type
+    type: int
+    required: false
+    description: Brightway uncertainty distribution code. Nullable.
+  - name: loc
+    type: double
+    required: false
+    description: Uncertainty location parameter. Nullable.
+  - name: scale
+    type: double
+    required: false
+    description: Uncertainty scale parameter. Nullable.
+  - name: minimum
+    type: double
+    required: false
+    description: Uncertainty minimum. Nullable.
+  - name: maximum
+    type: double
+    required: false
+    description: Uncertainty maximum. Nullable.

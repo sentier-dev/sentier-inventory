@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://data.sentier.dev/inventory/schema/metadata",
+  "title": "Sentier inventory sector metadata",
+  "description": "Provenance file (metadata.json) carried by each data/<NN>-<sector>/ folder. Inventory is organized by sector / data type only; which upstream source supplied which rows is logged by sentier-importers, not recorded here.",
+  "type": "object",
+  "required": ["sector", "title", "rank", "schema_version"],
+  "additionalProperties": true,
+  "properties": {
+    "sector": { "type": "string", "description": "Lower-kebab sector / data-type id, e.g. agriculture, electricity, chemicals." },
+    "title": { "type": "string" },
+    "description": { "type": "string" },
+    "rank": { "type": "integer", "minimum": 1, "description": "Folder ordering / resolution precedence; lower wins." },
+    "schema_version": { "type": "string" },
+    "row_counts": {
+      "type": "object",
+      "additionalProperties": { "type": "integer", "minimum": 0 }
+    }
+  }
+}

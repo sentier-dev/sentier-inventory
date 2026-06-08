@@ -1,0 +1,8 @@
+{
+  "sector": "electricity",
+  "title": "Electricity",
+  "description": null,
+  "rank": 2,
+  "schema_version": "0.1.0",
+  "row_counts": {}
+}

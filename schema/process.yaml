@@ -1,0 +1,52 @@
+# Schema for processes.parquet — one row per LCI process (activity / node).
+# The reference flow is described inline; exchanges live in exchanges.parquet,
+# joined on process_id.
+
+table: processes
+file: processes.parquet
+primary_key: process_id
+description: Life cycle inventory processes.
+
+columns:
+  - name: process_id
+    type: string
+    required: true
+    description: Stable Sentier inventory id. Primary key.
+  - name: name
+    type: string
+    required: true
+    description: Process name.
+  - name: reference_product
+    type: string
+    required: true
+    description: >
+      The product this process produces. Technosphere match key — link by
+      reference product, not by process name.
+  - name: reference_unit
+    type: string
+    required: true
+    description: Unit of the reference flow.
+  - name: reference_amount
+    type: double
+    required: true
+    description: Amount of the reference flow (usually 1.0).
+  - name: location
+    type: string
+    required: true
+    description: Geography code.
+  - name: process_type
+    type: enum
+    enum: process_type      # see common.yaml
+    required: true
+  - name: technology
+    type: string
+    required: false
+    description: Free-text technology description.
+  - name: valid_from
+    type: date
+    required: false
+    description: Date from which this process record is valid.
+  - name: comment
+    type: string
+    required: false
+    description: Free-text note.
