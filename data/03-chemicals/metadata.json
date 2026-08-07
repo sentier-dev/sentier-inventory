@@ -1,7 +1,7 @@
 {
   "sector": "chemicals",
   "title": "Chemicals",
-  "description": "BAFU:2026 v1 datasets, regenerated locally. Source: Life Cycle Inventory database of the Swiss Federal Administration, BAFU:2026.",
+  "description": "Source: Life Cycle Inventory database of the Swiss Federal Administration, BAFU:2026.",
   "rank": 3,
   "schema_version": "0.1.0",
   "row_counts": {
