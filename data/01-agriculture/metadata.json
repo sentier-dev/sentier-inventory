@@ -1,8 +1,11 @@
 {
   "sector": "agriculture",
   "title": "Agriculture",
-  "description": null,
+  "description": "BAFU:2026 v1 datasets, regenerated locally. Source: Life Cycle Inventory database of the Swiss Federal Administration, BAFU:2026.",
   "rank": 1,
   "schema_version": "0.1.0",
-  "row_counts": {}
+  "row_counts": {
+    "processes.parquet": 210,
+    "exchanges.parquet": 7634
+  }
 }
