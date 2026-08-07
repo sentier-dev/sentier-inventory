@@ -1,0 +1,30 @@
+---
+# PR gate: every pull request to main (and every push to a non-main branch) validates
+# the committed sector data against the repo schemas before it can be merged. This is a
+# data-only repo, so the check is a single self-contained validation script.
+name: CI checks
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize]
+  push:
+    branches-ignore: [main]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install validation deps
+        run: python -m pip install --upgrade pip "jsonschema[format]" pyyaml pyarrow
+
+      - name: Validate data against schemas
+        run: python scripts/validate.py
