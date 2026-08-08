@@ -1,11 +1,11 @@
 {
-  "sector": "electricity",
-  "title": "Electricity",
+  "sector": "energy",
+  "title": "Energy carriers",
   "description": "Source: Life Cycle Inventory database of the Swiss Federal Administration, BAFU:2026.",
-  "rank": 2,
+  "rank": 5,
   "schema_version": "0.1.0",
   "row_counts": {
-    "processes.parquet": 2033,
-    "exchanges.parquet": 39133
+    "processes.parquet": 3188,
+    "exchanges.parquet": 46489
   }
 }
