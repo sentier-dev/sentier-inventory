@@ -14,6 +14,7 @@ artifacts only, no fetch/parse/calculate code.
 ```
 schema/   # YAML column definitions + JSON Schema for metadata
 data/     # raw parquet, one subfolder per sector / data type (ranked)
+scripts/  # CI validation (scripts/validate.py — data vs schema contracts)
 ```
 
 ## Data
@@ -40,8 +41,10 @@ here schemas describe parquet columns directly.
 
 These files are the **contract**, not code. `sentier-importers` reads them to
 validate and cast incoming data before delivering parquet here. This repo ships
-no Python package, loader, or tests — all ingestion logic lives in the importer,
-the read side in `sentier-platform`.
+no Python package or loader — all ingestion logic lives in the importer, the
+read side in `sentier-platform`. CI enforces the contract on every PR:
+`scripts/validate.py` checks each sector folder's parquet columns, enums,
+row counts, `process_id` uniqueness/foreign keys, and `metadata.json`.
 
 ## License
 

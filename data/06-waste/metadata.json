@@ -1,11 +1,11 @@
 {
-  "sector": "electricity",
-  "title": "Electricity",
+  "sector": "waste",
+  "title": "Waste management",
   "description": "Source: Life Cycle Inventory database of the Swiss Federal Administration, BAFU:2026.",
-  "rank": 2,
+  "rank": 6,
   "schema_version": "0.1.0",
   "row_counts": {
-    "processes.parquet": 2033,
-    "exchanges.parquet": 39133
+    "processes.parquet": 848,
+    "exchanges.parquet": 25777
   }
 }
