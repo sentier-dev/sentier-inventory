@@ -1,5 +1,6 @@
 # Schema for exchanges.parquet — one row per exchange (technosphere + biosphere
 # edges) of a process. Joined to processes.parquet on process_id.
+# Provenance is on the parent process row (processes.source), joined on process_id.
 
 table: exchanges
 file: exchanges.parquet

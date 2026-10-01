@@ -3,7 +3,10 @@
   "title": "Building services",
   "description": "Source: Life Cycle Inventory database of the Swiss Federal Administration, BAFU:2026.",
   "rank": 10,
-  "schema_version": "0.1.0",
+  "schema_version": "0.2.0",
+  "sources": [
+    "bafu-2026"
+  ],
   "row_counts": {
     "processes.parquet": 268,
     "exchanges.parquet": 11887

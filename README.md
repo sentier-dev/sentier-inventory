@@ -39,7 +39,7 @@ scripts/validate.py      # CI validator, self-contained
 
 ## Data
 
-Inventory is organized by sector, not by source. Which source supplied which rows is logged in `sentier-importers`.
+Inventory is organized by sector, not by source. Each process row carries a `source` tag (`bafu-2026`) and each folder's `metadata.json` lists the `sources` it holds, so consumers select by source without a source-named folder. See [data/README.md](data/README.md) for the id convention.
 
 Each `data/<NN>-<sector>/` folder holds:
 
@@ -47,7 +47,7 @@ Each `data/<NN>-<sector>/` folder holds:
 |---|---|
 | `processes.parquet` | one per process |
 | `exchanges.parquet` | one per exchange (technosphere and biosphere edges) |
-| `metadata.json` | sector, title, rank, schema_version, row_counts |
+| `metadata.json` | sector, title, rank, schema_version, sources, row_counts |
 
 - The `NN` prefix orders sectors. Lower wins when records overlap.
 - Sector ids are lower-kebab: `agriculture`, `electricity`, `chemicals`.

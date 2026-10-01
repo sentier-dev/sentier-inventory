@@ -10,7 +10,9 @@ Checks every ``data/<NN>-<sector>/`` folder:
   required columns present and non-null, column types match, enum columns only
   hold allowed values;
 - ``processes.process_id`` is unique per folder and every
-  ``exchanges.process_id`` resolves to a process in the same folder.
+  ``exchanges.process_id`` resolves to a process in the same folder;
+- the distinct ``processes.source`` values equal ``metadata.json`` ``sources`` (both
+  directions), so consumers can select folders by metadata without opening parquet.
 
 Columns declared optional may be omitted entirely. A column whose values are
 all null passes the type check regardless of its physical type (an all-null
@@ -119,6 +121,27 @@ def validate_folder(folder, process_cols, exchange_cols, enums, metadata_schema,
                     f"{folder.name}/exchanges.parquet: {len(orphans)} process_id values "
                     f"with no process row (e.g. {sorted(orphans)[:3]})"
                 )
+
+    if processes is not None and "source" in processes.column_names and "sources" in meta:
+        validate_sources(folder, processes["source"], meta["sources"], errors)
+
+
+def validate_sources(folder, source_column, declared, errors):
+    """``metadata.json`` ``sources`` must equal the distinct ``processes.source`` values."""
+    seen = set(pc.drop_null(source_column.combine_chunks()).unique().to_pylist())
+    declared = set(declared)
+    undeclared = seen - declared
+    if undeclared:
+        errors.append(
+            f"{folder.name}/processes.parquet: source values not declared in "
+            f"metadata.json sources: {sorted(undeclared)}"
+        )
+    absent = declared - seen
+    if absent:
+        errors.append(
+            f"{folder.name}/metadata.json: sources declared but absent from "
+            f"processes.parquet: {sorted(absent)}"
+        )
 
 
 def main():
