@@ -38,6 +38,19 @@ columns:
     type: enum
     enum: process_type      # see common.yaml
     required: true
+  - name: source
+    type: string
+    required: true
+    description: >
+      Datasource id of the upstream dataset this row was imported from, lower-kebab
+      <publisher>-<edition>, e.g. bafu-2026. Must appear in the sector's
+      metadata.json "sources" list. Consumers select rows by this column.
+  - name: source_version
+    type: string
+    required: false
+    description: >
+      Publisher's release/version of that dataset, e.g. v1. Free-form; never part of
+      the source id.
   - name: technology
     type: string
     required: false

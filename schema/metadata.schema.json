@@ -2,19 +2,51 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://data.sentier.dev/inventory/schema/metadata",
   "title": "Sentier inventory sector metadata",
-  "description": "Provenance file (metadata.json) carried by each data/<NN>-<sector>/ folder. Inventory is organized by sector / data type only; which upstream source supplied which rows is logged by sentier-importers, not recorded here.",
+  "description": "Provenance file (metadata.json) carried by each data/<NN>-<sector>/ folder. Inventory is organised by sector; \"sources\" lists every datasource id present in this folder's processes.parquet \"source\" column. The source-to-row import log stays in sentier-importers.",
   "type": "object",
-  "required": ["sector", "title", "rank", "schema_version"],
+  "required": [
+    "sector",
+    "title",
+    "rank",
+    "schema_version",
+    "sources"
+  ],
   "additionalProperties": true,
   "properties": {
-    "sector": { "type": "string", "description": "Lower-kebab sector / data-type id, e.g. agriculture, electricity, chemicals." },
-    "title": { "type": "string" },
-    "description": { "type": "string" },
-    "rank": { "type": "integer", "minimum": 1, "description": "Folder ordering / resolution precedence; lower wins." },
-    "schema_version": { "type": "string" },
+    "sector": {
+      "type": "string",
+      "description": "Lower-kebab sector / data-type id, e.g. agriculture, electricity, chemicals."
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "rank": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Folder ordering / resolution precedence; lower wins."
+    },
+    "schema_version": {
+      "type": "string"
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+(-[a-z0-9.]+)*$"
+      },
+      "description": "Datasource ids present in this folder's processes.parquet source column, e.g. [\"bafu-2026\"]. Must equal the column's distinct values (CI-checked)."
+    },
     "row_counts": {
       "type": "object",
-      "additionalProperties": { "type": "integer", "minimum": 0 }
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
     }
   }
 }
