@@ -1,6 +1,6 @@
 ---
 # PR gate: every pull request to main (and every push to a non-main branch) validates
-# the committed sector data against the repo schemas before it can be merged. This is a
+# the committed source data against the repo schemas before it can be merged. This is a
 # data-only repo, so the check is a single self-contained validation script.
 name: CI checks
 

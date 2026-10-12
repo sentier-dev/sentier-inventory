@@ -16,4 +16,17 @@ enums:
     - system        # a system process aggregating multiple unit processes
     - lci_result    # a cradle-to-gate LCI result
 
+  sector:           # sector / data-type a process belongs to (was the folder level < 0.3.0)
+    - agriculture
+    - electricity
+    - chemicals
+    - transport
+    - energy
+    - waste
+    - construction
+    - materials
+    - electronics
+    - building-services
+    - obsolete      # legacy link targets kept so older references resolve
+
 # Column types used across schemas: string | double | int | date | enum

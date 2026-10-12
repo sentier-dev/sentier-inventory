@@ -1,26 +1,28 @@
 # data/
 
-Raw **parquet** inventory artifacts, **one subfolder per sector / data type**,
-ranked by a numeric prefix:
+Raw **parquet** inventory artifacts, **one subfolder per published release of one
+datasource**:
 
 ```
 data/
-  01-agriculture/   # rank 1 — highest resolution precedence
-  02-electricity/   # Brightcon deliverable
-  03-chemicals/     # chemicals & materials
+  bafu-2026-v1/   # BAFU:2026 v1 LCI database
 ```
 
-Convention: `data/<NN>-<sector>/`, where `<sector>` is a lower-kebab sector /
-data-type id (`agriculture`, `electricity`, `chemicals`) and `<NN>` sets folder
-ordering / resolution precedence (lower wins when records overlap).
+Convention: `data/<source>-<source_version>/`, where `<source>` is the lower-kebab
+datasource id `<publisher>-<edition>` and `<source_version>` is the publisher's release.
+A folder holds exactly one source and one version. A delivery from `sentier-importers`
+replaces the folder whole; sources never share a file, so nothing is ever merged. A
+re-release is a new folder; the PR that adds it removes the old one unless both are meant
+to be served.
 
-Inventory is organized by **sector, not by datasource**. Upstream sources
-(BAFU, Agribalyse, …) each span many sectors, so a folder may hold rows from
-several sources. Every process row is tagged with its `source` (and optional
-`source_version`), and each folder's `metadata.json` lists the `sources` present,
-so a consumer can pick folders by metadata and rows by column. Precedence between
-folders is by rank; within a folder the consumer selects by `source` (there is no
-intra-folder precedence rule). The import log of which upstream file produced
+Inventory is organized by **source**, with the **sector as a column**. Every process
+row carries `source`, `source_version` and `sector` (enum in `../schema/common.yaml`:
+`agriculture`, `electricity`, `chemicals`, `transport`, `energy`, `waste`,
+`construction`, `materials`, `electronics`, `building-services`, `obsolete`). Each
+folder's `metadata.json` carries the publisher, licence, required citation, the
+`sectors` present and the row counts, so a consumer can pick a folder from metadata
+alone and filter rows by sector. Within one source there is no precedence rule;
+between sources the consumer chooses. The import log of which upstream file produced
 which rows stays in `sentier-importers`.
 
 ### Source ids
@@ -31,15 +33,12 @@ sentier-mappings pair-folder prefix. The publisher's release goes in
 `source_version`, never in the id, so a re-release does not rename the database a
 consumer's project depends on.
 
-| datasource | `source` | `source_version` |
-|---|---|---|
-| BAFU:2026 v1 LCI database | `bafu-2026` | `v1` |
+| datasource | `source` | `source_version` | folder |
+|---|---|---|---|
+| BAFU:2026 v1 LCI database | `bafu-2026` | `v1` | `bafu-2026-v1/` |
 
 > Background datasets that exist only as link targets (e.g. ecoinvent) are not a
-> sector; they are resolved through `sentier-mappings`, not stored here as their
-> own folder.
+> source here; they are resolved through `sentier-mappings`, not stored as a folder.
 
 Each folder holds `processes.parquet`, `exchanges.parquet`, and `metadata.json`.
-See [../schema/](../schema/) for column definitions. Parquet payloads are pushed
-by `sentier-importers` / `sentier-models`; the skeleton ships `.gitkeep` +
-`metadata.json` stubs only.
+See [../schema/](../schema/) for column definitions.

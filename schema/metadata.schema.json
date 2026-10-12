@@ -1,45 +1,78 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://data.sentier.dev/inventory/schema/metadata",
-  "title": "Sentier inventory sector metadata",
-  "description": "Provenance file (metadata.json) carried by each data/<NN>-<sector>/ folder. Inventory is organised by sector; \"sources\" lists every datasource id present in this folder's processes.parquet \"source\" column. The source-to-row import log stays in sentier-importers.",
+  "title": "Sentier inventory source metadata",
+  "description": "Provenance file (metadata.json) carried by each data/<source>-<source_version>/ folder. One folder holds exactly one published release of one datasource; sector is a column on processes.parquet. The source-to-row import log stays in sentier-importers.",
   "type": "object",
   "required": [
-    "sector",
+    "source",
+    "source_version",
     "title",
-    "rank",
+    "publisher",
+    "license",
+    "citation",
     "schema_version",
-    "sources"
+    "sectors",
+    "row_counts"
   ],
   "additionalProperties": true,
   "properties": {
-    "sector": {
+    "source": {
       "type": "string",
-      "description": "Lower-kebab sector / data-type id, e.g. agriculture, electricity, chemicals."
+      "pattern": "^[a-z0-9]+(-[a-z0-9.]+)*$",
+      "description": "Datasource id, lower-kebab <publisher>-<edition>, e.g. bafu-2026. Equals the single distinct processes.source value (CI-checked)."
+    },
+    "source_version": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+([.-][a-z0-9]+)*$",
+      "description": "Publisher's release of that dataset, e.g. v1. Equals the single distinct processes.source_version value; the folder is named <source>-<source_version> (CI-checked)."
     },
     "title": {
       "type": "string"
     },
-    "description": {
+    "publisher": {
       "type": "string"
     },
-    "rank": {
-      "type": "integer",
-      "minimum": 1,
-      "description": "Folder ordering / resolution precedence; lower wins."
+    "license": {
+      "type": "string",
+      "description": "Licence name, URL or terms-of-use summary as the publisher states it."
+    },
+    "citation": {
+      "type": "string",
+      "description": "The citation sentence the publisher requires."
+    },
+    "source_url": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Where the upstream was obtained."
+    },
+    "provenance": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "sentier-vocab Source IRI of this datasource."
+    },
+    "retrieved": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
     },
     "schema_version": {
       "type": "string"
     },
-    "sources": {
+    "sectors": {
       "type": "array",
       "minItems": 1,
       "uniqueItems": true,
       "items": {
-        "type": "string",
-        "pattern": "^[a-z0-9]+(-[a-z0-9.]+)*$"
+        "type": "string"
       },
-      "description": "Datasource ids present in this folder's processes.parquet source column, e.g. [\"bafu-2026\"]. Must equal the column's distinct values (CI-checked)."
+      "description": "Sorted distinct processes.sector values present in this folder (CI-checked)."
     },
     "row_counts": {
       "type": "object",
