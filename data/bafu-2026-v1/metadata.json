@@ -1,0 +1,29 @@
+{
+  "source": "bafu-2026",
+  "source_version": "v1",
+  "title": "Life Cycle Inventory database of the Swiss Federal Administration, BAFU:2026 (v1)",
+  "publisher": "Swiss Federal Office for the Environment (BAFU/FOEN)",
+  "license": "BAFU Terms of Use: free use and processing, no redistribution as or inside another database without agreement (§2.1/§2.2), share-alike and change documentation for modified data (§3), citation required (§2.3)",
+  "citation": "Life Cycle Inventory database of the Swiss Federal Administration, BAFU:2026. Version 1, EcoSpold v1 export (11,947 datasets).",
+  "source_url": null,
+  "provenance": "https://vocab.sentier.dev/sources/bafu-2026",
+  "retrieved": null,
+  "schema_version": "0.3.0",
+  "sectors": [
+    "agriculture",
+    "building-services",
+    "chemicals",
+    "construction",
+    "electricity",
+    "electronics",
+    "energy",
+    "materials",
+    "obsolete",
+    "transport",
+    "waste"
+  ],
+  "row_counts": {
+    "processes.parquet": 11947,
+    "exchanges.parquet": 420063
+  }
+}
